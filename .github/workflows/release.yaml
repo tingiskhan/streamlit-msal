@@ -17,10 +17,7 @@ jobs:
           node-version: '18'
 
       - name: Install dependencies & build React
-        run: |
-          cd frontend
-          npm install
-          npm run build
+        run: make build-react
 
       - name: Get version
         id: get_version
