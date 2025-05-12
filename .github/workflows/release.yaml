@@ -21,7 +21,6 @@ jobs:
           cd frontend
           npm install
           npm run build
-          mv build ../streamlit_component/static/
 
       - name: Get version
         id: get_version
