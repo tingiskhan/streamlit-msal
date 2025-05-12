@@ -1,0 +1,41 @@
+name: Build & Release Streamlit Component
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build_and_release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Install Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install dependencies & build React
+        run: |
+          cd frontend
+          npm install
+          npm run build
+          mv build ../streamlit_component/static/
+
+      - name: Get version
+        id: get_version
+        run: echo "::set-output name=version::$(grep "__version__" msal_login/__init__.py | cut -d '"' -f2)"
+
+      - name: Create tar archive
+        run: make package VERSION=${{ steps.get_version.outputs.version }}
+
+      - name: Create release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: v${{ steps.get_version.outputs.version }}
+          name: "Release"
+          body: "Automated release"
+          files: msal-login-${{ steps.get_version.outputs.version }}.tar.gz
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
