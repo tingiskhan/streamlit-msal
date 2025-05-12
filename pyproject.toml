@@ -1,0 +1,46 @@
+[build-system]
+requires = ["setuptools>61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "msal_login"
+description = "Library for authenticating against MSAL in Streamlit"
+dynamic = ["version"]
+authors = [
+    {name = "Victor Gruselius", email="victor.gruselius@gmail.com"},
+]
+readme = "README.md"
+requires-python = ">=3.11"
+
+dependencies = [
+    "streamlit",
+]
+
+[project.urls]
+homepage = "https://github.com/tingiskhan/msal_button"
+
+[tool.black]
+line-length = 120
+
+[tool.setuptools.packages.find]
+include = ["msal_login*"]
+
+[tool.bumpver]
+current_version = "0.0.1"
+version_pattern = "MAJOR.MINOR.PATCH"
+commit_message = "bump version {old_version} -> {new_version}"
+commit = false
+tag = false
+push = false
+
+[tool.bumpver.file_patterns]
+"pyproject.toml" = [
+    'current_version = "{version}"',
+]
+
+"msal_login/__init__.py" = [
+    '__version__ = "{version}"'
+]
+
+[tool.setuptools.dynamic]
+version = {attr = "msal_login.__version__"}
