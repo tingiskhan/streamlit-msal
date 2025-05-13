@@ -3,7 +3,7 @@ from pathlib import Path
 import streamlit.components.v1 as components
 import streamlit as st
 
-__version__ = "0.0.3"
+__version__ = "0.0.4"
 
 path = (Path(__file__).parent / "frontend" / "build").resolve()
 
