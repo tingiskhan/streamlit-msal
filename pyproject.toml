@@ -25,8 +25,11 @@ line-length = 120
 [tool.setuptools.packages.find]
 include = ["msal_login*"]
 
+[tool.setuptools.package-data]
+msal_login = ["msal_login/frontend/build/*"]
+
 [tool.bumpver]
-current_version = "0.0.1"
+current_version = "0.0.2"
 version_pattern = "MAJOR.MINOR.PATCH"
 commit_message = "bump version {old_version} -> {new_version}"
 commit = false

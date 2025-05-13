@@ -6,4 +6,4 @@ build-react:
 
 package:
 	@echo "Packaging msal-login..."
-	tar -czf msal-login-${VERSION}.tar.gz ./setup.py ./pyproject.toml ./README.md ./msal_login/__init__.py ./msal_login/frontend/build/
+	tar -czf msal-login-${VERSION}.tar.gz ./setup.py ./pyproject.toml ./README.md ./msal_login/__init__.py ./msal_login/frontend/build/ ./MANIFEST.in
