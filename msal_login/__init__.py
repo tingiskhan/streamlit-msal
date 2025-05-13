@@ -1,9 +1,8 @@
 from pathlib import Path
 
 import streamlit.components.v1 as components
-import streamlit as st
 
-__version__ = "0.0.4"
+__version__ = "0.0.5"
 
 path = (Path(__file__).parent / "frontend" / "build").resolve()
 
@@ -37,5 +36,4 @@ def msal_login(client_id: str, authority: str, redirect_uri: str, scopes: list[s
     if result_json:
         return result_json
 
-    st.error(f"Failed to parse authentication result: {result_json}")
     return None
