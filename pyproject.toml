@@ -17,7 +17,7 @@ dependencies = [
 ]
 
 [project.urls]
-homepage = "https://github.com/tingiskhan/msal_button"
+homepage = "https://github.com/tingiskhan/streamlit-msal"
 
 [tool.black]
 line-length = 120
@@ -26,10 +26,10 @@ line-length = 120
 include = ["msal_login*"]
 
 [tool.setuptools.package-data]
-msal_login = ["msal_login/frontend/build/*"]
+msal_login = ["frontend/build/*"]
 
 [tool.bumpver]
-current_version = "0.0.2"
+current_version = "0.0.3"
 version_pattern = "MAJOR.MINOR.PATCH"
 commit_message = "bump version {old_version} -> {new_version}"
 commit = false
