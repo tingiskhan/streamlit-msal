@@ -2,7 +2,7 @@ from pathlib import Path
 
 import streamlit.components.v1 as components
 
-__version__ = "0.0.5"
+__version__ = "0.0.6"
 
 path = (Path(__file__).parent / "frontend" / "build").resolve()
 
@@ -11,7 +11,7 @@ assert path.exists()
 _component_func = components.declare_component("msal_login_component", path=path)
 
 
-def msal_login(client_id: str, authority: str, redirect_uri: str, scopes: list[str]) -> dict | None:
+def msal_login(client_id: str, authority: str, redirect_uri: str, scopes: list[str], key: str) -> dict | None:
     """
     Renders the MSAL login button and returns the MSAL AuthenticationResult as a dict,
     or None if not yet authenticated.
@@ -21,6 +21,7 @@ def msal_login(client_id: str, authority: str, redirect_uri: str, scopes: list[s
         authority: The authority URL for the Azure AD tenant.
         redirect_uri: The redirect URI for the application.
         scopes: The scopes to request during authentication.
+        key: Key for the component.
 
     Returns:
         Dictionary containing the authentication result, or None if not authenticated.
@@ -30,7 +31,7 @@ def msal_login(client_id: str, authority: str, redirect_uri: str, scopes: list[s
         authority=authority,
         redirectUri=redirect_uri,
         scopes=scopes,
-        key="msal-login",
+        key=key,
     )
 
     if result_json:
