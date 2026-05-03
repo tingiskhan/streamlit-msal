@@ -5,16 +5,16 @@ Adds a login button to your Streamlit app that uses the Microsoft Authentication
 ## Installation
 
 ```bash
-pip install msal-login
+pip install streamlit-entra
 ```
 
-> The PyPI package name is `msal-login` (hyphen); the Python import name is `msal_login` (underscore).
+> The PyPI package name is `streamlit-entra` (hyphen); the Python import name is `streamlit_entra` (underscore).
 
 ## Usage
 
 ```python
 import streamlit as st
-from msal_login import msal_login
+from streamlit_entra import msal_login
 
 result = msal_login(
     client_id="<your-client-id>",
@@ -30,7 +30,7 @@ if result:
 
 ## Releasing a New Version
 
-1. Ensure [PyPI Trusted Publishing](https://docs.pypi.org/trusted-publishers/adding-a-publisher/) is configured for this repo (one-time setup on pypi.org: owner `tingiskhan`, repo `streamlit-msal`, workflow `publish.yaml`).
+1. Ensure [PyPI Trusted Publishing](https://docs.pypi.org/trusted-publishers/adding-a-publisher/) is configured for the `streamlit-entra` project on pypi.org (one-time setup: owner `tingiskhan`, repo `streamlit-msal`, workflow `publish.yaml`).
 2. Tag and push:
    ```bash
    git tag v0.0.7
@@ -42,7 +42,7 @@ if result:
 
 ```bash
 # 1. Install frontend dependencies
-cd msal_login/frontend && npm ci
+cd streamlit_entra/frontend && npm ci
 
 # 2. Build the frontend (required before importing the package)
 npm run build

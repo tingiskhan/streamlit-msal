@@ -27,10 +27,10 @@ jobs:
         # installing to satisfy the RuntimeError in __init__.py.
         shell: bash
         run: |
-          mkdir -p msal_login/frontend/build
-          touch msal_login/frontend/build/index.html
+          mkdir -p streamlit_entra/frontend/build
+          touch streamlit_entra/frontend/build/index.html
           pip install -e .
-          python -c "import msal_login; print(msal_login.__version__)"
+          python -c "import streamlit_entra; print(streamlit_entra.__version__)"
 
   publish:
     needs: test
@@ -51,7 +51,7 @@ jobs:
           node-version: '20'
 
       - name: Build frontend
-        working-directory: msal_login/frontend
+        working-directory: streamlit_entra/frontend
         run: |
           npm ci
           npm run build

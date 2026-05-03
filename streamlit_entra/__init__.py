@@ -4,7 +4,7 @@ from pathlib import Path
 import streamlit.components.v1 as components
 
 try:
-    __version__ = version("msal_login")
+    __version__ = version("streamlit-entra")
 except PackageNotFoundError:
     __version__ = "0.0.0+dev"
 
@@ -13,10 +13,10 @@ path = (Path(__file__).parent / "frontend" / "build").resolve()
 if not path.exists():
     raise RuntimeError(
         f"Frontend build not found at {path}. "
-        "Run: cd msal_login/frontend && npm ci && npm run build"
+        "Run: cd streamlit_entra/frontend && npm ci && npm run build"
     )
 
-_component_func = components.declare_component("msal_login_component", path=path)
+_component_func = components.declare_component("streamlit_entra_component", path=path)
 
 
 def msal_login(client_id: str, authority: str, redirect_uri: str, scopes: list[str], key: str) -> dict | None:
