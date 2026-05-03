@@ -10,6 +10,20 @@ pip install streamlit-entra
 
 > The PyPI package name is `streamlit-entra` (hyphen); the Python import name is `streamlit_entra` (underscore).
 
+## Azure App Registration
+
+Before using this component you need an Azure App Registration. See the [Microsoft Entra quickstart](https://learn.microsoft.com/en-us/entra/identity-platform/quickstart-register-app) for the full guide. The critical steps are:
+
+1. Go to [Microsoft Entra admin center](https://entra.microsoft.com) → **App registrations** → **New registration**.
+2. Give it a name, select the supported account types, and click **Register**.
+3. From the **Overview** page, copy the **Application (client) ID** and **Directory (tenant) ID** — these map to `client_id` and the `<tenant-id>` in the `authority` URL.
+4. Go to **Authentication** → **Add a platform** → choose **Single-page application (SPA)**.
+5. Add your redirect URI (e.g. `http://localhost:8501` for local development). The URI must match the `redirect_uri` argument exactly, including trailing slashes.
+
+> **Important:** The platform type must be **Single-page application**, not *Web*. The popup flow used by MSAL Browser requires SPA-style implicit grant; selecting *Web* will cause the login popup to fail silently.
+
+6. Under **API permissions**, add any Microsoft Graph scopes your app needs (e.g. `User.Read` for basic profile).
+
 ## Usage
 
 ```python
