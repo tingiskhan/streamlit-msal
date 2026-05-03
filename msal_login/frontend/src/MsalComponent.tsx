@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Streamlit, withStreamlitConnection } from "streamlit-component-lib";
 import {
   PublicClientApplication,
@@ -19,24 +19,30 @@ interface ComponentProps {
 
 const MsalComponent: React.FC<ComponentProps> = ({ args }) => {
   const { clientId, authority, redirectUri, scopes } = args;
-  const [result, setResult] = useState<AuthenticationResult | { error: any } | null>(null);
+  const [initialized, setInitialized] = useState(false);
+  const [result, setResult] = useState<AuthenticationResult | { error: unknown } | null>(null);
 
-  // Initialize MSAL
-  const client = new PublicClientApplication({
-    auth: { clientId, authority, redirectUri },
-    cache: { cacheLocation: "sessionStorage" },
-  });
+  const client = useMemo(
+    () =>
+      new PublicClientApplication({
+        auth: { clientId, authority, redirectUri },
+        cache: { cacheLocation: "sessionStorage" },
+      }),
+    [clientId, authority, redirectUri]
+  );
 
-  console.log("Redirect URI:", redirectUri);
+  useEffect(() => {
+    let cancelled = false;
+    client.initialize().then(() => {
+      if (!cancelled) setInitialized(true);
+    });
+    return () => { cancelled = true; };
+  }, [client]);
 
-  client.initialize();
-
-  // Resize as soon as we mount
   useEffect(() => {
     Streamlit.setFrameHeight();
   }, []);
 
-  // When we have a login result or error, push it back to Python
   useEffect(() => {
     if (result) {
       Streamlit.setComponentValue(result);
@@ -44,7 +50,6 @@ const MsalComponent: React.FC<ComponentProps> = ({ args }) => {
     }
   }, [result]);
 
-  // Trigger MSAL popup
   const handleLogin = async () => {
     try {
       const response = await client.loginPopup({ scopes } as PopupRequest);
@@ -56,7 +61,7 @@ const MsalComponent: React.FC<ComponentProps> = ({ args }) => {
   };
 
   return (
-    <button onClick={handleLogin} type="button" class="btn btn-primary">
+    <button onClick={handleLogin} type="button" className="btn btn-primary" disabled={!initialized}>
       Sign in with Microsoft
     </button>
   );
