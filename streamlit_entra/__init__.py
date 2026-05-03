@@ -19,7 +19,7 @@ if not path.exists():
 _component_func = components.declare_component("streamlit_entra_component", path=path)
 
 
-def msal_login(client_id: str, authority: str, redirect_uri: str, scopes: list[str], key: str) -> dict | None:
+def login(client_id: str, authority: str, redirect_uri: str, scopes: list[str], key: str) -> dict | None:
     """
     Renders the MSAL login button and returns the MSAL AuthenticationResult as a dict,
     or None if not yet authenticated.

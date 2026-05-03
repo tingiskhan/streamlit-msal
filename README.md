@@ -14,9 +14,9 @@ pip install streamlit-entra
 
 ```python
 import streamlit as st
-from streamlit_entra import msal_login
+from streamlit_entra import login
 
-result = msal_login(
+result = login(
     client_id="<your-client-id>",
     authority="https://login.microsoftonline.com/<tenant-id>",
     redirect_uri="http://localhost:8501",
