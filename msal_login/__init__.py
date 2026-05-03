@@ -1,12 +1,20 @@
+from importlib.metadata import version, PackageNotFoundError
 from pathlib import Path
 
 import streamlit.components.v1 as components
 
-__version__ = "0.0.6"
+try:
+    __version__ = version("msal_login")
+except PackageNotFoundError:
+    __version__ = "0.0.0+dev"
 
 path = (Path(__file__).parent / "frontend" / "build").resolve()
 
-assert path.exists()
+if not path.exists():
+    raise RuntimeError(
+        f"Frontend build not found at {path}. "
+        "Run: cd msal_login/frontend && npm ci && npm run build"
+    )
 
 _component_func = components.declare_component("msal_login_component", path=path)
 
@@ -15,16 +23,6 @@ def msal_login(client_id: str, authority: str, redirect_uri: str, scopes: list[s
     """
     Renders the MSAL login button and returns the MSAL AuthenticationResult as a dict,
     or None if not yet authenticated.
-
-    Args:
-        client_id: The client ID of the Azure AD application.
-        authority: The authority URL for the Azure AD tenant.
-        redirect_uri: The redirect URI for the application.
-        scopes: The scopes to request during authentication.
-        key: Key for the component.
-
-    Returns:
-        Dictionary containing the authentication result, or None if not authenticated.
     """
     result_json = _component_func(
         clientId=client_id,
@@ -34,7 +32,4 @@ def msal_login(client_id: str, authority: str, redirect_uri: str, scopes: list[s
         key=key,
     )
 
-    if result_json:
-        return result_json
-
-    return None
+    return result_json if result_json else None
