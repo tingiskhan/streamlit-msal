@@ -189,3 +189,5 @@ cython_debug/
 *.tar
 *.tar.gz
 
+# uv
+uv.lock
