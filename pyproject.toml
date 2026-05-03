@@ -1,10 +1,10 @@
 [build-system]
-requires = ["setuptools>61.0"]
+requires = ["setuptools>=61.0", "setuptools-scm>=8"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "msal_login"
-description = "Library for authenticating against MSAL in Streamlit"
+name = "streamlit-entra"
+description = "Streamlit component for Microsoft Entra ID (MSAL) authentication"
 dynamic = ["version"]
 authors = [
     {name = "Victor Gruselius", email="victor.gruselius@gmail.com"},
@@ -22,28 +22,17 @@ homepage = "https://github.com/tingiskhan/streamlit-msal"
 [tool.black]
 line-length = 120
 
+[tool.setuptools]
+include-package-data = false
+
 [tool.setuptools.packages.find]
-include = ["msal_login*"]
+include = ["streamlit_entra*"]
 
 [tool.setuptools.package-data]
-msal_login = ["frontend/build/*"]
-
-[tool.bumpver]
-current_version = "0.0.6"
-version_pattern = "MAJOR.MINOR.PATCH"
-commit_message = "bump version {old_version} -> {new_version}"
-commit = false
-tag = false
-push = false
-
-[tool.bumpver.file_patterns]
-"pyproject.toml" = [
-    'current_version = "{version}"',
+streamlit_entra = [
+    "frontend/build/*",
+    "frontend/build/**/*",
 ]
 
-"msal_login/__init__.py" = [
-    '__version__ = "{version}"'
-]
-
-[tool.setuptools.dynamic]
-version = {attr = "msal_login.__version__"}
+[tool.setuptools_scm]
+fallback_version = "0.0.0+dev"
