@@ -6,7 +6,34 @@ on:
       - 'v*'
 
 jobs:
-  build-and-publish:
+  test:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        python-version: ['3.11', '3.12', '3.13']
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install and verify import
+        # Build dir does not exist on a fresh checkout, so we stub it out before
+        # installing to satisfy the RuntimeError in __init__.py.
+        shell: bash
+        run: |
+          mkdir -p msal_login/frontend/build
+          touch msal_login/frontend/build/index.html
+          pip install -e .
+          python -c "import msal_login; print(msal_login.__version__)"
+
+  publish:
+    needs: test
     runs-on: ubuntu-latest
     permissions:
       id-token: write   # required for OIDC trusted publishing
@@ -28,6 +55,8 @@ jobs:
         run: |
           npm ci
           npm run build
+          # Remove node_modules so they don't end up in the Python wheel
+          rm -rf node_modules
 
       - name: Set up Python
         uses: actions/setup-python@v5

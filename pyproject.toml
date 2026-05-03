@@ -22,6 +22,9 @@ homepage = "https://github.com/tingiskhan/streamlit-msal"
 [tool.black]
 line-length = 120
 
+[tool.setuptools]
+include-package-data = false
+
 [tool.setuptools.packages.find]
 include = ["msal_login*"]
 
